@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { withStyles } from '@mui/styles';
@@ -6,6 +6,9 @@ import { createTheme } from '@mui/material/styles';
 import TableCell from '@mui/material/TableCell';
 import Paper from '@mui/material/Paper';
 import { AutoSizer, Column, Table } from 'react-virtualized';
+
+import { BASE_URL } from '../App'
+
 
 const styles = (theme) => ({
   flexContainer: {
@@ -85,7 +88,7 @@ class MuiVirtualizedTable extends React.PureComponent {
         className={clsx(classes.tableCell, classes.flexContainer, classes.noClick)}
         variant="head"
         style={{ height: headerHeight }}
-        align={columns[columnIndex].numeric || false ? 'right' : 'left'}
+        // align={columns[columnIndex].numeric || false ? 'right' : 'left'}
       >
         <span>{label}</span>
       </TableCell>
@@ -151,28 +154,26 @@ MuiVirtualizedTable.propTypes = {
 const defaultTheme = createTheme();
 const VirtualizedTable = withStyles(styles, { defaultTheme })(MuiVirtualizedTable);
 
-// ---
-
-const sample = [
-  ['Frozen yoghurt', 159, 6.0, 24, 4.0],
-  ['Ice cream sandwich', 237, 9.0, 37, 4.3],
-  ['Eclair', 262, 16.0, 24, 6.0],
-  ['Cupcake', 305, 3.7, 67, 4.3],
-  ['Gingerbread', 356, 16.0, 49, 3.9],
-];
-
-function createData(id, dessert, calories, fat, carbs, protein) {
-  return { id, dessert, calories, fat, carbs, protein };
-}
-
-const rows = [];
-
-for (let i = 0; i < 200; i += 1) {
-  const randomSelection = sample[Math.floor(Math.random() * sample.length)];
-  rows.push(createData(i, ...randomSelection));
-}
-
 export default function ReactVirtualizedTable() {
+    const [rows, setRows] = useState([])
+
+    useEffect(()=> {
+        let config = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+        }
+    
+          fetch(BASE_URL+"patients", config)
+          .then(res => res.json())
+          .then(res => {
+                console.log(res)
+                setRows(res)
+          })
+      }, [])
+
   return (
     <Paper style={{ height: 400, width: '100%' }}>
       <VirtualizedTable
@@ -180,33 +181,24 @@ export default function ReactVirtualizedTable() {
         rowGetter={({ index }) => rows[index]}
         columns={[
           {
+            width: 100,
+            label: 'ID',
+            dataKey: 'id',
+          },
+          {
             width: 200,
-            label: 'Dessert',
-            dataKey: 'dessert',
+            label: 'Last Name',
+            dataKey: 'last_name',
           },
           {
-            width: 120,
-            label: 'Calories\u00A0(g)',
-            dataKey: 'calories',
-            numeric: true,
+            width: 200,
+            label: 'First Name',
+            dataKey: 'first_name',
           },
           {
-            width: 120,
-            label: 'Fat\u00A0(g)',
-            dataKey: 'fat',
-            numeric: true,
-          },
-          {
-            width: 120,
-            label: 'Carbs\u00A0(g)',
-            dataKey: 'carbs',
-            numeric: true,
-          },
-          {
-            width: 120,
-            label: 'Protein\u00A0(g)',
-            dataKey: 'protein',
-            numeric: true,
+            width: 200,
+            label: 'MRN',
+            dataKey: 'mrn',
           },
         ]}
       />

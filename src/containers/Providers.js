@@ -196,7 +196,7 @@ export default function ReactVirtualizedTable() {
             dataKey: 'first_name',
           },
           {
-            width: 100,
+            width: 200,
             label: '# patients',
             dataKey: 'patients',
             numeric: true,
