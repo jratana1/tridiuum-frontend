@@ -6,6 +6,8 @@ import Dashboard from './containers/Dashboard';
 import Patients from './containers/Patients'
 import Providers from './containers/Providers'
 
+import Header from './components/Header'
+
 import Loader from "react-loader-spinner";
 import Grid from '@mui/material/Grid';
 
@@ -13,7 +15,7 @@ export const BASE_URL = "http://localhost:3000/";
 
 function App() {
 
-
+  const [page, setPage] = useState("Dashboard")
   const [isBusy, setBusy] = useState(false)
 
   const renderLoad = () => {
@@ -40,6 +42,7 @@ function App() {
 
       return (
         <HashRouter basename='/'>
+          <Header page={page} setPage={setPage}></Header>
           <Switch>
             <Route path={['/dashboard', "/"]} exact component={Dashboard} />
             <Route path='/patients' exact component={Patients} />
