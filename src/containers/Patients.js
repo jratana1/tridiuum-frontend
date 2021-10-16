@@ -6,6 +6,7 @@ import { createTheme } from '@mui/material/styles';
 import TableCell from '@mui/material/TableCell';
 import Paper from '@mui/material/Paper';
 import { AutoSizer, Column, Table } from 'react-virtualized';
+import Button from '@mui/material/Button'
 
 import { BASE_URL } from '../App'
 
@@ -60,6 +61,12 @@ class MuiVirtualizedTable extends React.PureComponent {
 
   cellRenderer = ({ cellData, columnIndex }) => {
     const { columns, classes, rowHeight, onRowClick } = this.props;
+    if (columnIndex === 4) {
+        return (
+            <Button>Click ME!</Button>
+        )
+    }
+    else {
     return (
       <TableCell
         component="div"
@@ -77,6 +84,7 @@ class MuiVirtualizedTable extends React.PureComponent {
         {cellData}
       </TableCell>
     );
+    }
   };
 
   headerRenderer = ({ label, columnIndex }) => {
@@ -157,6 +165,24 @@ const VirtualizedTable = withStyles(styles, { defaultTheme })(MuiVirtualizedTabl
 export default function ReactVirtualizedTable() {
     const [rows, setRows] = useState([])
 
+    const renderDetailsButton = (params) => {
+        return (
+            <strong>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    style={{ marginLeft: 16 }}
+                    onClick={() => {
+                        console.log("here")
+                    }}
+                >
+                    More Info
+                </Button>
+            </strong>
+        )
+    }
+
     useEffect(()=> {
         let config = {
             method: 'GET',
@@ -200,6 +226,20 @@ export default function ReactVirtualizedTable() {
             label: 'MRN',
             dataKey: 'mrn',
           },
+          {
+            field: "actions",
+            label: 'Actions',
+            sortable: false,
+            width: 140,
+            disableClickEventBubbling: true,
+            renderCell: (params) => {
+                return (
+                    <div>
+                        <Button>Here</Button>
+                     </div>
+                );
+             }
+          }
         ]}
       />
     </Paper>
