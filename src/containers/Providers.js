@@ -6,6 +6,10 @@ import { createTheme } from '@mui/material/styles';
 import TableCell from '@mui/material/TableCell';
 import Paper from '@mui/material/Paper';
 import { AutoSizer, Column, Table } from 'react-virtualized';
+import Button from '@mui/material/Button'
+import Box from '@mui/material/Box'
+
+import Confirm from '../components/Confirm'
 
 import { BASE_URL } from '../App'
 
@@ -44,11 +48,14 @@ const styles = (theme) => ({
   },
 });
 
+
 class MuiVirtualizedTable extends React.PureComponent {
   static defaultProps = {
     headerHeight: 48,
     rowHeight: 48,
   };
+
+
 
   getRowClassName = ({ index }) => {
     const { classes, onRowClick } = this.props;
@@ -58,8 +65,22 @@ class MuiVirtualizedTable extends React.PureComponent {
     });
   };
 
-  cellRenderer = ({ cellData, columnIndex }) => {
+  cellRenderer = ({ cellData, rowData, columnIndex }) => {
+
     const { columns, classes, rowHeight, onRowClick } = this.props;
+    if (columnIndex === columns.length-1) {
+        return (
+            <Box>
+                <Button onClick = {(e) => this.props.setOpen({ open: true, action: "Edit", rowData: rowData})}>
+                    Edit
+                </Button>
+                <Button onClick = {(e) => this.props.setOpen({ open: true, action: "Delete", rowData: rowData})}>
+                    Delete
+                </Button>
+            </Box>
+        )
+    }
+    else {
     return (
       <TableCell
         component="div"
@@ -77,9 +98,10 @@ class MuiVirtualizedTable extends React.PureComponent {
         {cellData}
       </TableCell>
     );
+    }
   };
 
-  headerRenderer = ({ label, columnIndex }) => {
+  headerRenderer = ({ label }) => {
     const { headerHeight, columns, classes } = this.props;
 
     return (
@@ -88,7 +110,6 @@ class MuiVirtualizedTable extends React.PureComponent {
         className={clsx(classes.tableCell, classes.flexContainer, classes.noClick)}
         variant="head"
         style={{ height: headerHeight }}
-        // align={columns[columnIndex].numeric || false ? 'right' : 'left'}
       >
         <span>{label}</span>
       </TableCell>
@@ -140,8 +161,8 @@ MuiVirtualizedTable.propTypes = {
   classes: PropTypes.object.isRequired,
   columns: PropTypes.arrayOf(
     PropTypes.shape({
-      dataKey: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired,
+      dataKey: PropTypes.string,
+      label: PropTypes.string,
       numeric: PropTypes.bool,
       width: PropTypes.number.isRequired,
     }),
@@ -156,6 +177,12 @@ const VirtualizedTable = withStyles(styles, { defaultTheme })(MuiVirtualizedTabl
 
 export default function ReactVirtualizedTable() {
     const [rows, setRows] = useState([])
+    const [open, setOpen] = useState({open: false, action: ""})
+    
+      const handleClose = () => {
+        setOpen({...open, open: false});
+      };
+
 
     useEffect(()=> {
         let config = {
@@ -169,13 +196,17 @@ export default function ReactVirtualizedTable() {
           fetch(BASE_URL+"providers", config)
           .then(res => res.json())
           .then(res => {
+                console.log(res)
                 setRows(res)
           })
       }, [])
 
   return (
+    <Box>
     <Paper style={{ height: 400, width: '100%' }}>
       <VirtualizedTable
+        setRows= {setRows}
+        setOpen= {setOpen}
         rowCount={rows.length}
         rowGetter={({ index }) => rows[index]}
         columns={[
@@ -195,13 +226,31 @@ export default function ReactVirtualizedTable() {
             dataKey: 'first_name',
           },
           {
-            width: 200,
-            label: '# patients',
-            dataKey: 'patients',
-            numeric: true,
+            dataKey: 'action',
+            label: 'Actions',
+            width: 140,
+
           },
         ]}
       />
     </Paper>
+    <Button onClick={() => {setOpen({open: true,
+                                    action: "Create",
+                                    rowData: {id: "", 
+                                            first_name:"",
+                                            mrn: "",
+                                            last_name: ""}
+                                    })}}
+        >
+        Add Provider
+    </Button>
+    <Confirm
+        open={open.open}
+        action= {open.action}
+        rowData= {open.rowData}
+        onClose={handleClose}
+        setRows= {setRows}
+    />
+    </Box>
   );
 }
