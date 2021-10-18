@@ -169,7 +169,6 @@ export default function ReactVirtualizedTable() {
           fetch(BASE_URL+"providers", config)
           .then(res => res.json())
           .then(res => {
-                console.log(res)
                 setRows(res)
           })
       }, [])

@@ -9,6 +9,8 @@ import { AutoSizer, Column, Table } from 'react-virtualized';
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 
+import Confirm from '../components/Confirm'
+
 import { BASE_URL } from '../App'
 
 
@@ -69,25 +71,10 @@ class MuiVirtualizedTable extends React.PureComponent {
     if (columnIndex === 4) {
         return (
             <Box>
-            <Button onClick = {(e) => console.log(rowData)}>Edit</Button>
-            <Button onClick = {(e) => {
-                                let config = {
-                                    method: 'DELETE',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                        'Accept': 'application/json',
-                                        'body': {id: rowData.id}
-                                    },
-                                }
-                            
-                                  fetch(BASE_URL+"patients", config)
-                                  .then(res => res.json())
-                                  .then(res => {
-                                      console.log("deleted")
-                                  })
-                                }
-                            }
-            >
+                <Button onClick = {(e) => this.props.setOpen({ open: true, action: "Edit", rowData: rowData})}>
+                    Edit
+                </Button>
+                <Button onClick = {(e) => this.props.setOpen({ open: true, action: "Delete", rowData: rowData})}>
                     Delete
                 </Button>
             </Box>
@@ -190,6 +177,12 @@ const VirtualizedTable = withStyles(styles, { defaultTheme })(MuiVirtualizedTabl
 
 export default function ReactVirtualizedTable() {
     const [rows, setRows] = useState([])
+    const [open, setOpen] = useState({open: false, action: ""})
+    
+      const handleClose = () => {
+        setOpen({...open, open: false});
+      };
+
 
     useEffect(()=> {
         let config = {
@@ -212,6 +205,8 @@ export default function ReactVirtualizedTable() {
     <Box>
     <Paper style={{ height: 400, width: '100%' }}>
       <VirtualizedTable
+        setRows= {setRows}
+        setOpen= {setOpen}
         rowCount={rows.length}
         rowGetter={({ index }) => rows[index]}
         columns={[
@@ -245,7 +240,13 @@ export default function ReactVirtualizedTable() {
       />
     </Paper>
     <Button>Add Patient</Button>
-
+    <Confirm
+        open={open.open}
+        action= {open.action}
+        rowData= {open.rowData}
+        onClose={handleClose}
+        setRows= {setRows}
+    />
     </Box>
   );
 }
