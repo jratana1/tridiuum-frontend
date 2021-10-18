@@ -7,6 +7,7 @@ import TableCell from '@mui/material/TableCell';
 import Paper from '@mui/material/Paper';
 import { AutoSizer, Column, Table } from 'react-virtualized';
 import Button from '@mui/material/Button'
+import Box from '@mui/material/Box'
 
 import { BASE_URL } from '../App'
 
@@ -45,11 +46,14 @@ const styles = (theme) => ({
   },
 });
 
+
 class MuiVirtualizedTable extends React.PureComponent {
   static defaultProps = {
     headerHeight: 48,
     rowHeight: 48,
   };
+
+
 
   getRowClassName = ({ index }) => {
     const { classes, onRowClick } = this.props;
@@ -59,11 +63,34 @@ class MuiVirtualizedTable extends React.PureComponent {
     });
   };
 
-  cellRenderer = ({ cellData, columnIndex }) => {
+  cellRenderer = ({ cellData, rowData, columnIndex }) => {
+
     const { columns, classes, rowHeight, onRowClick } = this.props;
     if (columnIndex === 4) {
         return (
-            <Button>Click ME!</Button>
+            <Box>
+            <Button onClick = {(e) => console.log(rowData)}>Edit</Button>
+            <Button onClick = {(e) => {
+                                let config = {
+                                    method: 'DELETE',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'Accept': 'application/json',
+                                        'body': {id: rowData.id}
+                                    },
+                                }
+                            
+                                  fetch(BASE_URL+"patients", config)
+                                  .then(res => res.json())
+                                  .then(res => {
+                                      console.log("deleted")
+                                  })
+                                }
+                            }
+            >
+                    Delete
+                </Button>
+            </Box>
         )
     }
     else {
@@ -87,7 +114,7 @@ class MuiVirtualizedTable extends React.PureComponent {
     }
   };
 
-  headerRenderer = ({ label, columnIndex }) => {
+  headerRenderer = ({ label }) => {
     const { headerHeight, columns, classes } = this.props;
 
     return (
@@ -96,7 +123,6 @@ class MuiVirtualizedTable extends React.PureComponent {
         className={clsx(classes.tableCell, classes.flexContainer, classes.noClick)}
         variant="head"
         style={{ height: headerHeight }}
-        // align={columns[columnIndex].numeric || false ? 'right' : 'left'}
       >
         <span>{label}</span>
       </TableCell>
@@ -148,8 +174,8 @@ MuiVirtualizedTable.propTypes = {
   classes: PropTypes.object.isRequired,
   columns: PropTypes.arrayOf(
     PropTypes.shape({
-      dataKey: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired,
+      dataKey: PropTypes.string,
+      label: PropTypes.string,
       numeric: PropTypes.bool,
       width: PropTypes.number.isRequired,
     }),
@@ -164,24 +190,6 @@ const VirtualizedTable = withStyles(styles, { defaultTheme })(MuiVirtualizedTabl
 
 export default function ReactVirtualizedTable() {
     const [rows, setRows] = useState([])
-
-    const renderDetailsButton = (params) => {
-        return (
-            <strong>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    size="small"
-                    style={{ marginLeft: 16 }}
-                    onClick={() => {
-                        console.log("here")
-                    }}
-                >
-                    More Info
-                </Button>
-            </strong>
-        )
-    }
 
     useEffect(()=> {
         let config = {
@@ -201,6 +209,7 @@ export default function ReactVirtualizedTable() {
       }, [])
 
   return (
+    <Box>
     <Paper style={{ height: 400, width: '100%' }}>
       <VirtualizedTable
         rowCount={rows.length}
@@ -227,21 +236,16 @@ export default function ReactVirtualizedTable() {
             dataKey: 'mrn',
           },
           {
-            field: "actions",
+            dataKey: 'action',
             label: 'Actions',
-            sortable: false,
             width: 140,
-            disableClickEventBubbling: true,
-            renderCell: (params) => {
-                return (
-                    <div>
-                        <Button>Here</Button>
-                     </div>
-                );
-             }
-          }
+
+          },
         ]}
       />
     </Paper>
+    <Button>Add Patient</Button>
+
+    </Box>
   );
 }
