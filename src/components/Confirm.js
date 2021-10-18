@@ -1,21 +1,14 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
-import Avatar from '@mui/material/Avatar';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemText from '@mui/material/ListItemText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
-import PersonIcon from '@mui/icons-material/Person';
-import AddIcon from '@mui/icons-material/Add';
+
 import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box'
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import { blue } from '@mui/material/colors';
+import TextField from '@mui/material/TextField';
 
 import { BASE_URL } from '../App'
 
@@ -24,15 +17,23 @@ const emails = ['username@gmail.com', 'user02@gmail.com'];
 
 export default function Confirm(props) {
   const { onClose, open, action, rowData, setRows } = props;
+  const [ patient, setPatient ] = useState({id: "", 
+                                            first_name: "",
+                                            mrn: "",
+                                            last_name: ""})
 
   const handleClose = () => {
     onClose();
   };
 
-  const handleListItemClick = (value) => {
-    onClose(value);
+  const handleChange = (event) => {
+    let { name, value } = event.target;
+      setPatient({...patient, [name]:value })
 
+
+    // setPatient({...patient, event.target.name: event.target.value});
   };
+
 
   const deletePatient = (id) => {
     let config = {
@@ -50,6 +51,34 @@ export default function Confirm(props) {
           handleClose()
       })
     }
+
+    const editPatient = (id) => {
+        let config = {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify( patient )  
+        }
+
+          fetch(BASE_URL+`patients/${id}`, config)
+          .then(res => res.json())
+          .then(res => {
+            setRows(res)
+            handleClose()
+          })
+        }
+
+
+     useEffect(()=> {
+        if (rowData) {
+        setPatient({id: rowData.id, 
+                    first_name:rowData.first_name,
+                    mrn: rowData.mrn,
+                    last_name: rowData.last_name})
+        }
+    }, [rowData])
 
 
   if (action === "Delete"){
@@ -72,32 +101,45 @@ export default function Confirm(props) {
         </Dialog>
       )
   }
-  return (
-    <Dialog onClose={handleClose} open={open}>
-      <DialogTitle>Set backup account</DialogTitle>
-      <List sx={{ pt: 0 }}>
-        {emails.map((email) => (
-          <ListItem button onClick={() => handleListItemClick(email)} key={email}>
-            <ListItemAvatar>
-              <Avatar sx={{ bgcolor: blue[100], color: blue[600] }}>
-                <PersonIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary={email} />
-          </ListItem>
-        ))}
+  else if (action === "Edit"){
+    return (
+      <Dialog onClose={handleClose} open={open}>     
+          <DialogTitle>Edit Patient</DialogTitle>
+              <Card sx={{ minWidth: 275 }}>
+                  <CardContent>
+                  <TextField
+                            id="last_name"
+                            name="last_name"
+                            label="Last Name"
+                            value={patient.last_name}
+                            onChange={handleChange}
+                        />
+                        <TextField
+                            id="first_name"
+                            name="first_name"
+                            label="First Name"
+                            value={patient.first_name}
+                            onChange={handleChange}
 
-        <ListItem autoFocus button onClick={() => handleListItemClick('addAccount')}>
-          <ListItemAvatar>
-            <Avatar>
-              <AddIcon />
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText primary="Add account" />
-        </ListItem>
-      </List>
-    </Dialog>
-  );
+                        />
+                         <TextField
+                            id="mrn"
+                            name="mrn"
+                            label="MRN"
+                            value={patient.mrn}
+                            onChange={handleChange}
+                        />
+                  </CardContent>
+                  <CardActions>
+                      <Button onClick= {() => editPatient(rowData.id)}>Save</Button>
+                      <Button onClick= {() => handleClose()}>Cancel</Button>                    </CardActions>
+                  </Card>
+      </Dialog>
+    )  
+    }
+    else {
+        return null
+    }
 }
 
 Confirm.propTypes = {
