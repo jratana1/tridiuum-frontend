@@ -239,7 +239,16 @@ export default function ReactVirtualizedTable() {
         ]}
       />
     </Paper>
-    <Button>Add Patient</Button>
+    <Button onClick={() => {setOpen({open: true,
+                                    action: "Create",
+                                    rowData: {id: "", 
+                                            first_name:"",
+                                            mrn: "",
+                                            last_name: ""}
+                                    })}}
+        >
+        Add Patient
+    </Button>
     <Confirm
         open={open.open}
         action= {open.action}

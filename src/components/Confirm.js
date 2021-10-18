@@ -52,22 +52,40 @@ export default function Confirm(props) {
       })
     }
 
-    const editPatient = (id) => {
-        let config = {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            },
-            body: JSON.stringify( patient )  
+    const editPatient = (id, action) => {
+        let config
+        if (action === "Edit") {
+                config = {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify( patient )  
+            }
+            fetch(BASE_URL+`patients/${id}`, config)
+            .then(res => res.json())
+            .then(res => {
+              setRows(res)
+              handleClose()
+            })
         }
-
-          fetch(BASE_URL+`patients/${id}`, config)
-          .then(res => res.json())
-          .then(res => {
-            setRows(res)
-            handleClose()
-          })
+        else {
+            config = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify( patient )  
+            }
+            fetch(BASE_URL+`patients`, config)
+            .then(res => res.json())
+            .then(res => {
+              setRows(res)
+              handleClose()
+            })
+        }
         }
 
 
@@ -101,7 +119,8 @@ export default function Confirm(props) {
         </Dialog>
       )
   }
-  else if (action === "Edit"){
+  else if (action === "Edit" || action === "Create"){
+
     return (
       <Dialog onClose={handleClose} open={open}>     
           <DialogTitle>Edit Patient</DialogTitle>
@@ -131,7 +150,7 @@ export default function Confirm(props) {
                         />
                   </CardContent>
                   <CardActions>
-                      <Button onClick= {() => editPatient(rowData.id)}>Save</Button>
+                      <Button onClick= {() => editPatient(rowData.id, action)}>Save</Button>
                       <Button onClick= {() => handleClose()}>Cancel</Button>                    </CardActions>
                   </Card>
       </Dialog>
