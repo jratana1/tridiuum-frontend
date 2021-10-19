@@ -12,11 +12,8 @@ import TextField from '@mui/material/TextField';
 
 import { BASE_URL } from '../App'
 
-
-const emails = ['username@gmail.com', 'user02@gmail.com'];
-
 export default function Confirm(props) {
-  const { onClose, open, action, rowData, setRows } = props;
+  const { onClose, open, action, rowData, setRows, page } = props;
   const [ patient, setPatient ] = useState({id: "", 
                                             first_name: "",
                                             mrn: "",
@@ -29,9 +26,6 @@ export default function Confirm(props) {
   const handleChange = (event) => {
     let { name, value } = event.target;
       setPatient({...patient, [name]:value })
-
-
-    // setPatient({...patient, event.target.name: event.target.value});
   };
 
 
@@ -91,10 +85,7 @@ export default function Confirm(props) {
 
      useEffect(()=> {
         if (rowData) {
-        setPatient({id: rowData.id, 
-                    first_name:rowData.first_name,
-                    mrn: rowData.mrn,
-                    last_name: rowData.last_name})
+        setPatient({...rowData})
         }
     }, [rowData])
 
