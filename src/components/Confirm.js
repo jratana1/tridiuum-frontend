@@ -46,7 +46,7 @@ export default function Confirm(props) {
       fetch(BASE_URL+`${lowerCase(page)}s/${id}`, config)
       .then(res => res.json())
       .then(res => {
-          setRows(res)
+          setRows(res[lowerCase(page)+"s"])
           handleClose()
       })
     }
@@ -60,12 +60,12 @@ export default function Confirm(props) {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
                 },
-                body: JSON.stringify( record )  
+                body: JSON.stringify( { record: record, associations: associations})  
             }
             fetch(BASE_URL+`${lowerCase(page)}s/${id}`, config)
             .then(res => res.json())
             .then(res => {
-              setRows(res)
+              setRows(res[lowerCase(page)+"s"])
               handleClose()
             })
         }
@@ -82,7 +82,7 @@ export default function Confirm(props) {
             fetch(BASE_URL+`${lowerCase(page)}s`, config)
             .then(res => res.json())
             .then(res => {
-              setRows(res)
+              setRows(res[lowerCase(page)+"s"])
               handleClose()
             })
         }
@@ -91,10 +91,13 @@ export default function Confirm(props) {
 
      useEffect(()=> {
         if (rowData) {
-        let indexes = []
-        rowData.hospitals.forEach(element => indexes.push(element.id))
-        let selected = dropDown.filter(element => indexes.includes(element.id))
-        setAssociations(selected)
+
+          if (rowData.hospitals){
+            let indexes = []
+            rowData.hospitals.forEach(element => indexes.push(element.id))
+            let selected = dropDown.filter(element => indexes.includes(element.id))
+            setAssociations(selected)
+          }
         setRecord({...rowData})
         }
     }, [rowData])
