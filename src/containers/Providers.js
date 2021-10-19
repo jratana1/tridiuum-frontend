@@ -175,9 +175,11 @@ MuiVirtualizedTable.propTypes = {
 const defaultTheme = createTheme();
 const VirtualizedTable = withStyles(styles, { defaultTheme })(MuiVirtualizedTable);
 
-export default function ReactVirtualizedTable() {
+export default function ReactVirtualizedTable(props) {
     const [rows, setRows] = useState([])
     const [open, setOpen] = useState({open: false, action: ""})
+    const { page } = props
+
     
       const handleClose = () => {
         setOpen({...open, open: false});
@@ -255,6 +257,7 @@ export default function ReactVirtualizedTable() {
         rowData= {open.rowData}
         onClose={handleClose}
         setRows= {setRows}
+        page={page}
     />
     </Box>
   );

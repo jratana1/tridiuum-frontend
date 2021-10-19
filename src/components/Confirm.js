@@ -14,10 +14,12 @@ import { BASE_URL } from '../App'
 
 export default function Confirm(props) {
   const { onClose, open, action, rowData, setRows, page } = props;
-  const [ patient, setPatient ] = useState({id: "", 
+  const [ record, setRecord ] = useState({id: "", 
                                             first_name: "",
                                             mrn: "",
                                             last_name: ""})
+
+                        
 
   const handleClose = () => {
     onClose();
@@ -25,11 +27,11 @@ export default function Confirm(props) {
 
   const handleChange = (event) => {
     let { name, value } = event.target;
-      setPatient({...patient, [name]:value })
+      setRecord({...record, [name]:value })
   };
 
 
-  const deletePatient = (id) => {
+  const deleteRecord = (id) => {
     let config = {
         method: 'DELETE',
         headers: {
@@ -46,7 +48,7 @@ export default function Confirm(props) {
       })
     }
 
-    const editPatient = (id, action) => {
+    const editRecord = (id, action) => {
         let config
         if (action === "Edit") {
                 config = {
@@ -55,7 +57,7 @@ export default function Confirm(props) {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
                 },
-                body: JSON.stringify( patient )  
+                body: JSON.stringify( record )  
             }
             fetch(BASE_URL+`patients/${id}`, config)
             .then(res => res.json())
@@ -71,7 +73,7 @@ export default function Confirm(props) {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
                 },
-                body: JSON.stringify( patient )  
+                body: JSON.stringify( record )  
             }
             fetch(BASE_URL+`patients`, config)
             .then(res => res.json())
@@ -85,7 +87,7 @@ export default function Confirm(props) {
 
      useEffect(()=> {
         if (rowData) {
-        setPatient({...rowData})
+        setRecord({...rowData})
         }
     }, [rowData])
 
@@ -104,7 +106,7 @@ export default function Confirm(props) {
                         </Typography>
                     </CardContent>
                     <CardActions>
-                        <Button onClick= {() => deletePatient(rowData.id)}>Delete</Button>
+                        <Button onClick= {() => deleteRecord(rowData.id)}>Delete</Button>
                         <Button onClick= {() => handleClose()}>Cancel</Button>                    </CardActions>
                     </Card>
         </Dialog>
@@ -114,21 +116,21 @@ export default function Confirm(props) {
 
     return (
       <Dialog onClose={handleClose} open={open}>     
-          <DialogTitle>Edit Patient</DialogTitle>
+          <DialogTitle>Edit {page}</DialogTitle>
               <Card sx={{ minWidth: 275 }}>
                   <CardContent>
                   <TextField
                             id="last_name"
                             name="last_name"
                             label="Last Name"
-                            value={patient.last_name}
+                            value={record.last_name}
                             onChange={handleChange}
                         />
                         <TextField
                             id="first_name"
                             name="first_name"
                             label="First Name"
-                            value={patient.first_name}
+                            value={record.first_name}
                             onChange={handleChange}
 
                         />
@@ -136,12 +138,12 @@ export default function Confirm(props) {
                             id="mrn"
                             name="mrn"
                             label="MRN"
-                            value={patient.mrn}
+                            value={record.mrn}
                             onChange={handleChange}
                         />
                   </CardContent>
                   <CardActions>
-                      <Button onClick= {() => editPatient(rowData.id, action)}>Save</Button>
+                      <Button onClick= {() => editRecord(rowData.id, action)}>Save</Button>
                       <Button onClick= {() => handleClose()}>Cancel</Button>                    </CardActions>
                   </Card>
       </Dialog>

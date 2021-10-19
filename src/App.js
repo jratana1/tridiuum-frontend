@@ -11,12 +11,16 @@ import Header from './components/Header'
 import Loader from "react-loader-spinner";
 import Grid from '@mui/material/Grid';
 
+import { useLocation } from 'react-router-dom';
+
+
 export const BASE_URL = "http://localhost:3000/";
 
 function App() {
 
   const [page, setPage] = useState("Dashboard")
   const [isBusy, setBusy] = useState(false)
+
 
   const renderLoad = () => {
     if (isBusy) {
@@ -45,8 +49,12 @@ function App() {
           <Header page={page} setPage={setPage}></Header>
           <Switch>
             <Route path={['/dashboard', "/"]} exact component={Dashboard} />
-            <Route path='/patients' exact component={Patients} />
-            <Route path='/providers' exact component={Providers} />
+            <Route path='/patients'>
+              <Patients page={page}/>
+            </Route>
+            <Route path='/providers'>
+              <Providers page={page}/>
+            </Route>
           </Switch>
         </HashRouter>
       )

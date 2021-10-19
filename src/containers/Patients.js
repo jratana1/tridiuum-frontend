@@ -175,10 +175,11 @@ MuiVirtualizedTable.propTypes = {
 const defaultTheme = createTheme();
 const VirtualizedTable = withStyles(styles, { defaultTheme })(MuiVirtualizedTable);
 
-export default function ReactVirtualizedTable() {
+export default function Patients(props) {
     const [rows, setRows] = useState([])
     const [open, setOpen] = useState({open: false, action: ""})
-    
+    const { page } = props
+
       const handleClose = () => {
         setOpen({...open, open: false});
       };
@@ -196,7 +197,6 @@ export default function ReactVirtualizedTable() {
           fetch(BASE_URL+"patients", config)
           .then(res => res.json())
           .then(res => {
-                console.log(res)
                 setRows(res)
           })
       }, [])
@@ -247,7 +247,7 @@ export default function ReactVirtualizedTable() {
                                             last_name: ""}
                                     })}}
         >
-        Add Patient
+        Add {page}
     </Button>
     <Confirm
         open={open.open}
@@ -255,6 +255,7 @@ export default function ReactVirtualizedTable() {
         rowData= {open.rowData}
         onClose={handleClose}
         setRows= {setRows}
+        page= {page}
     />
     </Box>
   );
