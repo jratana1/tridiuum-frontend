@@ -249,7 +249,7 @@ export default function ReactVirtualizedTable(props) {
                                             last_name: ""}
                                     })}}
         >
-        Add Provider
+        Add {page}
     </Button>
     <Confirm
         open={open.open}

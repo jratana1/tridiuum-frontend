@@ -7,11 +7,11 @@ import Patients from './containers/Patients'
 import Providers from './containers/Providers'
 
 import Header from './components/Header'
+import Navbar from './components/Navbar'
 
 import Loader from "react-loader-spinner";
 import Grid from '@mui/material/Grid';
 
-import { useLocation } from 'react-router-dom';
 
 
 export const BASE_URL = "http://localhost:3000/";
@@ -47,6 +47,7 @@ function App() {
       return (
         <HashRouter basename='/'>
           <Header page={page} setPage={setPage}></Header>
+          <Navbar value={page} setValue={setPage} />
           <Switch>
             <Route path={['/dashboard', "/"]} exact component={Dashboard} />
             <Route path='/patients'>

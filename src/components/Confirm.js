@@ -14,12 +14,11 @@ import { BASE_URL } from '../App'
 
 export default function Confirm(props) {
   const { onClose, open, action, rowData, setRows, page } = props;
-  const [ record, setRecord ] = useState({id: "", 
-                                            first_name: "",
-                                            mrn: "",
-                                            last_name: ""})
+  const [ record, setRecord ] = useState({})
 
-                        
+  function lowerCase(string) {
+    return string.charAt(0).toLowerCase() + string.slice(1);
+  }
 
   const handleClose = () => {
     onClose();
@@ -40,7 +39,7 @@ export default function Confirm(props) {
         },
     }
 
-      fetch(BASE_URL+`patients/${id}`, config)
+      fetch(BASE_URL+`${lowerCase(page)}s/${id}`, config)
       .then(res => res.json())
       .then(res => {
           setRows(res)
@@ -59,7 +58,7 @@ export default function Confirm(props) {
                 },
                 body: JSON.stringify( record )  
             }
-            fetch(BASE_URL+`patients/${id}`, config)
+            fetch(BASE_URL+`${lowerCase(page)}s/${id}`, config)
             .then(res => res.json())
             .then(res => {
               setRows(res)
@@ -75,7 +74,7 @@ export default function Confirm(props) {
                 },
                 body: JSON.stringify( record )  
             }
-            fetch(BASE_URL+`patients`, config)
+            fetch(BASE_URL+`${lowerCase(page)}s`, config)
             .then(res => res.json())
             .then(res => {
               setRows(res)
@@ -116,7 +115,7 @@ export default function Confirm(props) {
 
     return (
       <Dialog onClose={handleClose} open={open}>     
-          <DialogTitle>Edit {page}</DialogTitle>
+          <DialogTitle>{action === "Edit" ? "Edit" : "Add"} {page}</DialogTitle>
               <Card sx={{ minWidth: 275 }}>
                   <CardContent>
                   <TextField
@@ -134,6 +133,7 @@ export default function Confirm(props) {
                             onChange={handleChange}
 
                         />
+                        {page === "Patient" ? 
                          <TextField
                             id="mrn"
                             name="mrn"
@@ -141,6 +141,7 @@ export default function Confirm(props) {
                             value={record.mrn}
                             onChange={handleChange}
                         />
+                        : null}
                   </CardContent>
                   <CardActions>
                       <Button onClick= {() => editRecord(rowData.id, action)}>Save</Button>

@@ -17,10 +17,10 @@ export default function Header(props) {
         let value
         switch(path) {
           case "providers":
-            value = "Providers"
+            value = "Provider"
             break;
           case "patients":
-            value = "Patients"
+            value = "Patient"
             break;
           default:
             value = "DashBoard"
@@ -42,7 +42,7 @@ export default function Header(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            {page}
+            {page + "s"}
           </Typography>
           <Button color="inherit">Login</Button>
         </Toolbar>
