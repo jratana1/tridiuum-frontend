@@ -17,6 +17,7 @@ import { BASE_URL } from '../App'
 export default function Confirm(props) {
   const { onClose, open, action, rowData, setRows, page, dropDown } = props;
   const [ record, setRecord ] = useState({})
+  const [associations, setAssociations] = React.useState([])
 
   function lowerCase(string) {
     return string.charAt(0).toLowerCase() + string.slice(1);
@@ -144,7 +145,7 @@ export default function Confirm(props) {
                             onChange={handleChange}
                         />
                         : null}
-                        <ChipSelect dropDown={dropDown}></ChipSelect>
+                        <ChipSelect setAssociations={setAssociations} associations={associations} dropDown={dropDown}></ChipSelect>
 
                   </CardContent>
                   <CardActions>

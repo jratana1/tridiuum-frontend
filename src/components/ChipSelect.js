@@ -22,10 +22,10 @@ const MenuProps = {
 };
 
 
-function getStyles(dropDown, personName, theme) {
+function getStyles(dropDown, associations, theme) {
   return {
     fontWeight:
-      personName.indexOf(dropDown) === -1
+      associations.indexOf(dropDown) === -1
         ? theme.typography.fontWeightRegular
         : theme.typography.fontWeightMedium,
   };
@@ -33,16 +33,13 @@ function getStyles(dropDown, personName, theme) {
 
 export default function ChipSelect(props) {
   const theme = useTheme();
-  const [personName, setPersonName] = React.useState([]);
-  
-  
-  const dropDown = props.dropDown
+  const { dropDown, associations, setAssociations }= props
 
   const handleChange = (event) => {
     const {
       target: { value },
     } = event;
-    setPersonName(
+    setAssociations(
       // On autofill we get a the stringified value.
       typeof value === 'string' ? value.split(',') : value,
     );
@@ -50,8 +47,8 @@ export default function ChipSelect(props) {
 
   const handleDelete = (e, value) => {
     e.preventDefault();
-    const index = personName.indexOf(value);
-    setPersonName((current) => current.splice(index,1))
+    const index = associations.indexOf(value);
+    setAssociations((current) => current.splice(index,1))
   };
 
   return (
@@ -62,13 +59,13 @@ export default function ChipSelect(props) {
           labelId="demo-multiple-chip-label"
           id="demo-multiple-chip"
           multiple
-          value={personName}
+          value={associations}
           onChange={handleChange}
           input={<OutlinedInput id="select-multiple-chip" label="Hospitals" />}
           renderValue={(selected) => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
               {selected.map((value) => (
-                <Chip key={value} label={value} 
+                <Chip key={value.name} label={value.name} 
                     clickable
                     deleteIcon={
                       <CancelIcon
@@ -85,8 +82,8 @@ export default function ChipSelect(props) {
           {dropDown.map((data) => (
             <MenuItem
               key={data.name}
-              value={data.id}
-              style={getStyles(dropDown, personName, theme)}
+              value={data}
+              style={getStyles(dropDown, associations, theme)}
             >
               {data.name}
             </MenuItem>
