@@ -17,6 +17,7 @@ import { BASE_URL } from '../App'
 export default function Confirm(props) {
   const { onClose, open, action, rowData, setRows, page, dropDown } = props;
   const [ record, setRecord ] = useState({})
+
   const [associations, setAssociations] = React.useState([])
 
   function lowerCase(string) {
@@ -76,7 +77,6 @@ export default function Confirm(props) {
                     'Accept': 'application/json',
                 },
                 body: JSON.stringify( { record: record, associations: associations})  
-                // body: JSON.stringify( record )  
 
             }
             fetch(BASE_URL+`${lowerCase(page)}s`, config)
@@ -91,6 +91,10 @@ export default function Confirm(props) {
 
      useEffect(()=> {
         if (rowData) {
+        let indexes = []
+        rowData.hospitals.forEach(element => indexes.push(element.id))
+        let selected = dropDown.filter(element => indexes.includes(element.id))
+        setAssociations(selected)
         setRecord({...rowData})
         }
     }, [rowData])
