@@ -154,12 +154,13 @@ export default function Confirm(props) {
                             onChange={handleChange}
                         />
                         : null}
-                        <ChipSelect setAssociations={setAssociations} associations={associations} dropDown={dropDown}></ChipSelect>
+                        <ChipSelect page={page} setAssociations={setAssociations} associations={associations} dropDown={dropDown}></ChipSelect>
 
                   </CardContent>
                   <CardActions>
                       <Button onClick= {() => editRecord(rowData.id, action)}>Save</Button>
-                      <Button onClick= {() => handleClose()}>Cancel</Button>                    </CardActions>
+                      <Button onClick= {() => handleClose()}>Cancel</Button>
+                  </CardActions>
                   </Card>
       </Dialog>
     )  

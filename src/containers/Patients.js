@@ -178,6 +178,8 @@ const VirtualizedTable = withStyles(styles, { defaultTheme })(MuiVirtualizedTabl
 export default function Patients(props) {
     const [rows, setRows] = useState([])
     const [open, setOpen] = useState({open: false, action: ""})
+    const [providers, setProviders] = useState([])
+
     const { page } = props
 
       const handleClose = () => {
@@ -198,6 +200,13 @@ export default function Patients(props) {
           .then(res => res.json())
           .then(res => {
                 setRows(res)
+          })
+
+          fetch(BASE_URL+"providers", config)
+          .then(res => res.json())
+          .then(res => {
+            res.providers.sort((a,b) => (a.last_name > b.last_name) ? 1 : ((b.last_name > a.last_name) ? -1 : 0))
+                setProviders(res.providers)
           })
       }, [])
 
@@ -256,6 +265,7 @@ export default function Patients(props) {
         onClose={handleClose}
         setRows= {setRows}
         page= {page}
+        dropDown= {providers}
     />
     </Box>
   );

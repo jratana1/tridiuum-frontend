@@ -206,6 +206,7 @@ export default function ReactVirtualizedTable(props) {
           fetch(BASE_URL+"hospitals", config)
           .then(res => res.json())
           .then(res => {
+            res.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
                 setHospitals(res)
           })
       }, [])

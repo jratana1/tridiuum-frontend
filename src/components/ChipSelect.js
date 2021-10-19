@@ -33,7 +33,7 @@ function getStyles(dropDown, associations, theme) {
 
 export default function ChipSelect(props) {
   const theme = useTheme();
-  const { dropDown, associations, setAssociations }= props
+  const { dropDown, associations, setAssociations, page }= props
 
   const handleChange = (event) => {
     const {
@@ -49,18 +49,18 @@ export default function ChipSelect(props) {
     e.preventDefault();
     setAssociations((current) => current.filter((element) => element.id != value.id))
   };
-
+  if (page === "Patient") {
   return (
     <div>
       <FormControl sx={{ m: 1, width: 300 }}>
-        <InputLabel id="demo-multiple-chip-label">Hospitals</InputLabel>
+        <InputLabel id="demo-multiple-chip-label">Providers</InputLabel>
         <Select
           labelId="demo-multiple-chip-label"
           id="demo-multiple-chip"
           multiple
           value={associations}
           onChange={handleChange}
-          input={<OutlinedInput id="select-multiple-chip" label="Hospitals" />}
+          input={<OutlinedInput id="select-multiple-chip" label="Providers" />}
           renderValue={(selected) => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
               {selected.map((value) => (
@@ -79,16 +79,61 @@ export default function ChipSelect(props) {
           MenuProps={MenuProps}
         >
           {dropDown.map((data) => (
+
             <MenuItem
-              key={data.name}
+              key={data.id}
               value={data}
               style={getStyles(dropDown, associations, theme)}
             >
-              {data.name}
+              {data.last_name}, {data.first_name}
             </MenuItem>
+      
           ))}
         </Select>
       </FormControl>
     </div>
-  );
+  )}
+  else {
+    return (
+      <div>
+        <FormControl sx={{ m: 1, width: 300 }}>
+          <InputLabel id="demo-multiple-chip-label">Hospitals</InputLabel>
+          <Select
+            labelId="demo-multiple-chip-label"
+            id="demo-multiple-chip"
+            multiple
+            value={associations}
+            onChange={handleChange}
+            input={<OutlinedInput id="select-multiple-chip" label="Hospitals" />}
+            renderValue={(selected) => (
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                {selected.map((value) => (
+                  <Chip key={value.name} label={value.name} 
+                      clickable
+                      deleteIcon={
+                        <CancelIcon
+                          onMouseDown={(event) => event.stopPropagation()}
+                        />
+                      }
+                      onDelete={(e) => handleDelete(e, value)}
+                      />
+                ))}
+              </Box>
+            )}
+            MenuProps={MenuProps}
+          >
+            {dropDown.map((data) => (
+              <MenuItem
+                key={data.name}
+                value={data}
+                style={getStyles(dropDown, associations, theme)}
+              >
+                {data.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </div>
+    )
+  }
 }
