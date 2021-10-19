@@ -75,7 +75,9 @@ export default function Confirm(props) {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
                 },
-                body: JSON.stringify( record )  
+                body: JSON.stringify( { record: record, associations: associations})  
+                // body: JSON.stringify( record )  
+
             }
             fetch(BASE_URL+`${lowerCase(page)}s`, config)
             .then(res => res.json())
