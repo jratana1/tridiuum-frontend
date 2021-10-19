@@ -44,7 +44,6 @@ export default function Header(props) {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             {page + "s"}
           </Typography>
-          <Button color="inherit">Login</Button>
         </Toolbar>
       </AppBar>
     </Box>

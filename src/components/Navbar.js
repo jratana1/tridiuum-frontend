@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom';
 import { makeStyles } from '@mui/styles';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import RestaurantIcon from '@mui/icons-material/Restaurant';
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 import PersonIcon from '@mui/icons-material/Person';
+import HealthAndSafetyIcon from '@mui/icons-material/HealthAndSafety';
 
 function Navbar(props) {
   const useStyles = makeStyles({
@@ -27,9 +27,9 @@ function Navbar(props) {
       className={classes.stickToBottom}
       
     >
-      <BottomNavigationAction component={Link} to="/dashboard" label="Dashboard" value="Dashboard"icon={<RestaurantIcon />} />
-      <BottomNavigationAction component={Link} to="/patients" label="Patients" value="Patients" icon={<FavoriteIcon />} />
-      <BottomNavigationAction component={Link} to="/providers" label="Providers" value="Providers" icon={<PersonIcon />} />
+      <BottomNavigationAction component={Link} to="/dashboard" label="Dashboard" value="Dashboard"icon={<DashboardIcon />} />
+      <BottomNavigationAction component={Link} to="/patients" label="Patients" value="Patients" icon={<PersonIcon />} />
+      <BottomNavigationAction component={Link} to="/providers" label="Providers" value="Providers" icon={<HealthAndSafetyIcon />} />
     </BottomNavigation>
    
 
