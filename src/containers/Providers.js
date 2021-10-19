@@ -177,6 +177,7 @@ const VirtualizedTable = withStyles(styles, { defaultTheme })(MuiVirtualizedTabl
 
 export default function ReactVirtualizedTable(props) {
     const [rows, setRows] = useState([])
+    const [hospitals, setHospitals] = useState([])
     const [open, setOpen] = useState({open: false, action: ""})
     const { page } = props
 
@@ -198,8 +199,13 @@ export default function ReactVirtualizedTable(props) {
           fetch(BASE_URL+"providers", config)
           .then(res => res.json())
           .then(res => {
-                console.log(res)
                 setRows(res)
+          })
+
+          fetch(BASE_URL+"hospitals", config)
+          .then(res => res.json())
+          .then(res => {
+                setHospitals(res)
           })
       }, [])
 
@@ -258,6 +264,7 @@ export default function ReactVirtualizedTable(props) {
         onClose={handleClose}
         setRows= {setRows}
         page={page}
+        dropDown={hospitals}
     />
     </Box>
   );

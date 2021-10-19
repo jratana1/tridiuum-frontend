@@ -10,10 +10,12 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import TextField from '@mui/material/TextField';
 
+import ChipSelect from './ChipSelect'
+
 import { BASE_URL } from '../App'
 
 export default function Confirm(props) {
-  const { onClose, open, action, rowData, setRows, page } = props;
+  const { onClose, open, action, rowData, setRows, page, dropDown } = props;
   const [ record, setRecord ] = useState({})
 
   function lowerCase(string) {
@@ -118,7 +120,7 @@ export default function Confirm(props) {
           <DialogTitle>{action === "Edit" ? "Edit" : "Add"} {page}</DialogTitle>
               <Card sx={{ minWidth: 275 }}>
                   <CardContent>
-                  <TextField
+                    <TextField
                             id="last_name"
                             name="last_name"
                             label="Last Name"
@@ -142,6 +144,8 @@ export default function Confirm(props) {
                             onChange={handleChange}
                         />
                         : null}
+                        <ChipSelect dropDown={dropDown}></ChipSelect>
+
                   </CardContent>
                   <CardActions>
                       <Button onClick= {() => editRecord(rowData.id, action)}>Save</Button>
