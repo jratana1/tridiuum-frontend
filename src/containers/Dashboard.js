@@ -61,7 +61,7 @@ class MuiVirtualizedTable extends React.PureComponent {
     const { classes, onRowClick } = this.props;
 
     return clsx(classes.tableRow, classes.flexContainer, {
-      [classes.tableRowHover]: index !== -1 && onRowClick != null,
+      [classes.tableRowHover]: index !== -1 && onRowClick == null,
     });
   };
 
@@ -199,7 +199,7 @@ export default function Patients(props) {
           fetch(BASE_URL+"patients", config)
           .then(res => res.json())
           .then(res => {
-                setRows(res)
+                setRows(res.patients)
           })
 
           fetch(BASE_URL+"providers", config)
@@ -212,7 +212,7 @@ export default function Patients(props) {
 
   return (
     <Box>
-    <Paper style={{ height: 400, width: '100%' }}>
+    <Paper style={{ height: 600, width: '100%' }}>
       <VirtualizedTable
         setRows= {setRows}
         setOpen= {setOpen}
@@ -225,12 +225,12 @@ export default function Patients(props) {
             dataKey: 'id',
           },
           {
-            width: 200,
+            width: 250,
             label: 'Last Name',
             dataKey: 'last_name',
           },
           {
-            width: 200,
+            width: 250,
             label: 'First Name',
             dataKey: 'first_name',
           },
@@ -242,7 +242,7 @@ export default function Patients(props) {
           {
             dataKey: 'providers',
             label: 'Proivder(s)',
-            width: 140,
+            width: 200,
 
           },
         ]}

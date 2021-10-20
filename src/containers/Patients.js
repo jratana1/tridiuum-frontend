@@ -55,18 +55,18 @@ class MuiVirtualizedTable extends React.PureComponent {
     rowHeight: 48,
   };
 
-
+  
 
   getRowClassName = ({ index }) => {
     const { classes, onRowClick } = this.props;
 
     return clsx(classes.tableRow, classes.flexContainer, {
-      [classes.tableRowHover]: index !== -1 && onRowClick != null,
+      [classes.tableRowHover]: index !== -1 && onRowClick == null,
     });
   };
 
   cellRenderer = ({ cellData, rowData, columnIndex }) => {
-
+    
     const { columns, classes, rowHeight, onRowClick } = this.props;
     if (columnIndex === 4) {
         return (
@@ -179,6 +179,7 @@ export default function Patients(props) {
     const [rows, setRows] = useState([])
     const [open, setOpen] = useState({open: false, action: ""})
     const [providers, setProviders] = useState([])
+    
 
     const { page } = props
 
@@ -212,7 +213,7 @@ export default function Patients(props) {
 
   return (
     <Box>
-    <Paper style={{ height: 400, width: '100%' }}>
+    <Paper style={{ height: 600, width: '100%' }}>
       <VirtualizedTable
         setRows= {setRows}
         setOpen= {setOpen}
@@ -225,12 +226,12 @@ export default function Patients(props) {
             dataKey: 'id',
           },
           {
-            width: 200,
+            width: 250,
             label: 'Last Name',
             dataKey: 'last_name',
           },
           {
-            width: 200,
+            width: 250,
             label: 'First Name',
             dataKey: 'first_name',
           },
@@ -242,7 +243,7 @@ export default function Patients(props) {
           {
             dataKey: 'action',
             label: 'Actions',
-            width: 140,
+            width: 200,
 
           },
         ]}
@@ -254,7 +255,9 @@ export default function Patients(props) {
                                             first_name:"",
                                             mrn: "",
                                             last_name: ""}
-                                    })}}
+                                    })
+                                  }
+                                }
         >
         Add {page}
     </Button>

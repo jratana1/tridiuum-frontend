@@ -98,11 +98,14 @@ export default function Confirm(props) {
             let selected = dropDown.filter(element => indexes.includes(element.id))
             setAssociations(selected)
           }
-          if (rowData.providers){
+          else if (rowData.providers){
             let indexes = []
             rowData.providers.forEach(element => indexes.push(element.id))
             let selected = dropDown.filter(element => indexes.includes(element.id))
             setAssociations(selected)
+          }
+          else {
+            setAssociations([])
           }
         setRecord({...rowData})
         }

@@ -61,7 +61,7 @@ class MuiVirtualizedTable extends React.PureComponent {
     const { classes, onRowClick } = this.props;
 
     return clsx(classes.tableRow, classes.flexContainer, {
-      [classes.tableRowHover]: index !== -1 && onRowClick != null,
+      [classes.tableRowHover]: index !== -1 && onRowClick == null,
     });
   };
 
@@ -213,7 +213,7 @@ export default function ReactVirtualizedTable(props) {
 
   return (
     <Box>
-    <Paper style={{ height: 400, width: '100%' }}>
+    <Paper style={{ height: 600 , width: '100%' }}>
       <VirtualizedTable
         setRows= {setRows}
         setOpen= {setOpen}
@@ -226,24 +226,24 @@ export default function ReactVirtualizedTable(props) {
             dataKey: 'id',
           },
           {
-            width: 200,
+            width: 250,
             label: 'Last Name',
             dataKey: 'last_name',
           },
           {
-            width: 200,
+            width: 250,
             label: 'First Name',
             dataKey: 'first_name',
           },
           {
             width: 200,
             label: '# Patients',
-            dataKey: 'patients',
+            dataKey: 'count',
           },
           {
             dataKey: 'action',
             label: 'Actions',
-            width: 140,
+            width: 200,
 
           },
         ]}
