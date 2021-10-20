@@ -18,7 +18,7 @@ export default function Confirm(props) {
   const { onClose, open, action, rowData, setRows, page, dropDown } = props;
   const [ record, setRecord ] = useState({})
 
-  const [associations, setAssociations] = React.useState([])
+  const [associations, setAssociations] = useState([])
 
   function lowerCase(string) {
     return string.charAt(0).toLowerCase() + string.slice(1);
@@ -91,10 +91,16 @@ export default function Confirm(props) {
 
      useEffect(()=> {
         if (rowData) {
-
+          console.log(rowData)
           if (rowData.hospitals){
             let indexes = []
             rowData.hospitals.forEach(element => indexes.push(element.id))
+            let selected = dropDown.filter(element => indexes.includes(element.id))
+            setAssociations(selected)
+          }
+          if (rowData.providers){
+            let indexes = []
+            rowData.providers.forEach(element => indexes.push(element.id))
             let selected = dropDown.filter(element => indexes.includes(element.id))
             setAssociations(selected)
           }

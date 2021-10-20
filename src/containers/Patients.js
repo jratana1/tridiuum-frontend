@@ -199,7 +199,7 @@ export default function Patients(props) {
           fetch(BASE_URL+"patients", config)
           .then(res => res.json())
           .then(res => {
-                setRows(res)
+                setRows(res.patients)
           })
 
           fetch(BASE_URL+"providers", config)

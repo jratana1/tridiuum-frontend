@@ -64,7 +64,7 @@ export default function ChipSelect(props) {
           renderValue={(selected) => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
               {selected.map((value) => (
-                <Chip key={value.name} label={value.name} 
+                <Chip key={value.id} label={`${value.last_name}, ${value.first_name}`}
                     clickable
                     deleteIcon={
                       <CancelIcon
