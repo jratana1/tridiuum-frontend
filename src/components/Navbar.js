@@ -28,8 +28,8 @@ function Navbar(props) {
       
     >
       <BottomNavigationAction component={Link} to="/dashboard" label="Dashboard" value="Dashboard"icon={<DashboardIcon />} />
-      <BottomNavigationAction component={Link} to="/patients" label="Patients" value="Patients" icon={<PersonIcon />} />
-      <BottomNavigationAction component={Link} to="/providers" label="Providers" value="Providers" icon={<HealthAndSafetyIcon />} />
+      <BottomNavigationAction component={Link} to="/patients" label="Patients" value="Patient" icon={<PersonIcon />} />
+      <BottomNavigationAction component={Link} to="/providers" label="Providers" value="Provider" icon={<HealthAndSafetyIcon />} />
     </BottomNavigation>
    
 
@@ -37,3 +37,31 @@ function Navbar(props) {
 }
 
 export default Navbar
+
+// import * as React from 'react';
+// import Box from '@mui/material/Box';
+// import BottomNavigation from '@mui/material/BottomNavigation';
+// import BottomNavigationAction from '@mui/material/BottomNavigationAction';
+// import RestoreIcon from '@mui/icons-material/Restore';
+// import FavoriteIcon from '@mui/icons-material/Favorite';
+// import LocationOnIcon from '@mui/icons-material/LocationOn';
+
+// export default function NavBar(props) {
+//   const [value, setValue] = React.useState(0);
+
+//   return (
+
+//       <BottomNavigation
+//         showLabels
+//         value={value}
+//         onChange={(event, newValue) => {
+//           setValue(newValue);
+//         }}
+//       >
+//         <BottomNavigationAction label="Recents" icon={<RestoreIcon />} />
+//         <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
+//         <BottomNavigationAction label="Nearby" icon={<LocationOnIcon />} />
+//       </BottomNavigation>
+
+//   );
+// }

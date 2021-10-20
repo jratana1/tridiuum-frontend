@@ -49,7 +49,9 @@ function App() {
           <Header page={page} setPage={setPage}></Header>
           <Navbar value={page} setValue={setPage} />
           <Switch>
-            <Route path={['/dashboard', "/"]} exact component={Dashboard} />
+            <Route path={['/dashboard', "/"]} exact>
+              <Dashboard/>
+            </Route>
             <Route path='/patients'>
               <Patients page={page}/>
             </Route>

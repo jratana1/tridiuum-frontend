@@ -23,7 +23,7 @@ export default function Header(props) {
             value = "Patient"
             break;
           default:
-            value = "DashBoard"
+            value = "Dashboard"
         }
         setPage(value)
           },[location.pathname, setPage])
@@ -42,7 +42,7 @@ export default function Header(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            {page + "s"}
+            {page === "Dashboard" ? "Dashboard" : page + "s"}
           </Typography>
         </Toolbar>
       </AppBar>

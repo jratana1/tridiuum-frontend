@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { withStyles } from '@mui/styles';
@@ -6,6 +6,13 @@ import { createTheme } from '@mui/material/styles';
 import TableCell from '@mui/material/TableCell';
 import Paper from '@mui/material/Paper';
 import { AutoSizer, Column, Table } from 'react-virtualized';
+import Button from '@mui/material/Button'
+import Box from '@mui/material/Box'
+
+import Confirm from '../components/Confirm'
+
+import { BASE_URL } from '../App'
+
 
 const styles = (theme) => ({
   flexContainer: {
@@ -41,11 +48,14 @@ const styles = (theme) => ({
   },
 });
 
+
 class MuiVirtualizedTable extends React.PureComponent {
   static defaultProps = {
     headerHeight: 48,
     rowHeight: 48,
   };
+
+
 
   getRowClassName = ({ index }) => {
     const { classes, onRowClick } = this.props;
@@ -55,8 +65,22 @@ class MuiVirtualizedTable extends React.PureComponent {
     });
   };
 
-  cellRenderer = ({ cellData, columnIndex }) => {
+  cellRenderer = ({ cellData, rowData, columnIndex }) => {
+
     const { columns, classes, rowHeight, onRowClick } = this.props;
+    if (columnIndex === 4) {
+        return (
+            <Box>
+                <Button onClick = {(e) => this.props.setOpen({ open: true, action: "Edit", rowData: rowData})}>
+                    Edit
+                </Button>
+                <Button onClick = {(e) => this.props.setOpen({ open: true, action: "Delete", rowData: rowData})}>
+                    Delete
+                </Button>
+            </Box>
+        )
+    }
+    else {
     return (
       <TableCell
         component="div"
@@ -74,9 +98,10 @@ class MuiVirtualizedTable extends React.PureComponent {
         {cellData}
       </TableCell>
     );
+    }
   };
 
-  headerRenderer = ({ label, columnIndex }) => {
+  headerRenderer = ({ label }) => {
     const { headerHeight, columns, classes } = this.props;
 
     return (
@@ -85,7 +110,6 @@ class MuiVirtualizedTable extends React.PureComponent {
         className={clsx(classes.tableCell, classes.flexContainer, classes.noClick)}
         variant="head"
         style={{ height: headerHeight }}
-        align={columns[columnIndex].numeric || false ? 'right' : 'left'}
       >
         <span>{label}</span>
       </TableCell>
@@ -137,8 +161,8 @@ MuiVirtualizedTable.propTypes = {
   classes: PropTypes.object.isRequired,
   columns: PropTypes.arrayOf(
     PropTypes.shape({
-      dataKey: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired,
+      dataKey: PropTypes.string,
+      label: PropTypes.string,
       numeric: PropTypes.bool,
       width: PropTypes.number.isRequired,
     }),
@@ -151,65 +175,98 @@ MuiVirtualizedTable.propTypes = {
 const defaultTheme = createTheme();
 const VirtualizedTable = withStyles(styles, { defaultTheme })(MuiVirtualizedTable);
 
-// ---
+export default function Patients(props) {
+    const [rows, setRows] = useState([])
+    const [open, setOpen] = useState({open: false, action: ""})
+    const [providers, setProviders] = useState([])
 
-const sample = [
-  ['Frozen yoghurt', 159, 6.0, 24, 4.0],
-  ['Ice cream sandwich', 237, 9.0, 37, 4.3],
-  ['Eclair', 262, 16.0, 24, 6.0],
-  ['Cupcake', 305, 3.7, 67, 4.3],
-  ['Gingerbread', 356, 16.0, 49, 3.9],
-];
+    const { page } = props
 
-function createData(id, dessert, calories, fat, carbs, protein) {
-  return { id, dessert, calories, fat, carbs, protein };
-}
+      const handleClose = () => {
+        setOpen({...open, open: false});
+      };
 
-const rows = [];
 
-for (let i = 0; i < 200; i += 1) {
-  const randomSelection = sample[Math.floor(Math.random() * sample.length)];
-  rows.push(createData(i, ...randomSelection));
-}
+    useEffect(()=> {
+        let config = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+        }
+    
+          fetch(BASE_URL+"patients", config)
+          .then(res => res.json())
+          .then(res => {
+                setRows(res)
+          })
 
-export default function ReactVirtualizedTable() {
+          fetch(BASE_URL+"providers", config)
+          .then(res => res.json())
+          .then(res => {
+            res.providers.sort((a,b) => (a.last_name > b.last_name) ? 1 : ((b.last_name > a.last_name) ? -1 : 0))
+                setProviders(res.providers)
+          })
+      }, [])
+
   return (
+    <Box>
     <Paper style={{ height: 400, width: '100%' }}>
       <VirtualizedTable
+        setRows= {setRows}
+        setOpen= {setOpen}
         rowCount={rows.length}
         rowGetter={({ index }) => rows[index]}
         columns={[
           {
+            width: 100,
+            label: 'ID',
+            dataKey: 'id',
+          },
+          {
             width: 200,
-            label: 'Dessert',
-            dataKey: 'dessert',
+            label: 'Last Name',
+            dataKey: 'last_name',
           },
           {
-            width: 120,
-            label: 'Calories\u00A0(g)',
-            dataKey: 'calories',
-            numeric: true,
+            width: 200,
+            label: 'First Name',
+            dataKey: 'first_name',
           },
           {
-            width: 120,
-            label: 'Fat\u00A0(g)',
-            dataKey: 'fat',
-            numeric: true,
+            width: 200,
+            label: 'MRN',
+            dataKey: 'mrn',
           },
           {
-            width: 120,
-            label: 'Carbs\u00A0(g)',
-            dataKey: 'carbs',
-            numeric: true,
-          },
-          {
-            width: 120,
-            label: 'Protein\u00A0(g)',
-            dataKey: 'protein',
-            numeric: true,
+            dataKey: 'providers',
+            label: 'Proivder(s)',
+            width: 140,
+
           },
         ]}
       />
     </Paper>
+    <Button onClick={() => {setOpen({open: true,
+                                    action: "Create",
+                                    rowData: {id: "", 
+                                            first_name:"",
+                                            mrn: "",
+                                            last_name: ""}
+                                    })}}
+        >
+        Add {page}
+    </Button>
+    <Confirm
+        open={open.open}
+        action= {open.action}
+        rowData= {open.rowData}
+        onClose={handleClose}
+        setRows= {setRows}
+        page= {page}
+        dropDown= {providers}
+    />
+    </Box>
   );
 }
