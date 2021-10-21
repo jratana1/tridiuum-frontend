@@ -91,7 +91,6 @@ export default function Confirm(props) {
 
      useEffect(()=> {
         if (rowData) {
-          console.log(rowData)
           if (rowData.hospitals){
             let indexes = []
             rowData.hospitals.forEach(element => indexes.push(element.id))
@@ -109,7 +108,7 @@ export default function Confirm(props) {
           }
         setRecord({...rowData})
         }
-    }, [rowData])
+    }, [rowData, dropDown])
 
 
   if (action === "Delete"){
@@ -119,7 +118,7 @@ export default function Confirm(props) {
                 <Card sx={{ minWidth: 275 }}>
                     <CardContent>
                         <Typography sx={{ fontSize: 18 }} color="text.secondary" gutterBottom>
-                        {rowData.last_name}, {rowData. first_name}
+                        {rowData.last_name}, {rowData.first_name}
                         </Typography>
                         <Typography sx={{ mb: 1.5 }} color="text.secondary">
                         {rowData.mrn}
@@ -133,7 +132,6 @@ export default function Confirm(props) {
       )
   }
   else if (action === "Edit" || action === "Create"){
-
     return (
       <Dialog onClose={handleClose} open={open}>     
           <DialogTitle>{action === "Edit" ? "Edit" : "Add"} {page}</DialogTitle>

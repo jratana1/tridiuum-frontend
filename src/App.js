@@ -1,6 +1,6 @@
 import './App.css';
 import { HashRouter, Switch, Route } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import Dashboard from './containers/Dashboard';
 import Patients from './containers/Patients'

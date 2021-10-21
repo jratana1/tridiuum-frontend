@@ -47,7 +47,7 @@ export default function ChipSelect(props) {
 
   const handleDelete = (e, value) => {
     e.preventDefault();
-    setAssociations((current) => current.filter((element) => element.id != value.id))
+    setAssociations((current) => current.filter((element) => element.id !== value.id))
   };
   if (page === "Patient") {
   return (

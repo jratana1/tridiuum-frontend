@@ -95,12 +95,12 @@ class MuiVirtualizedTable extends React.PureComponent {
             {cellData.map((provider) => {
                 if (provider.id) {
                 return (
-                  <Typography>{provider.last_name}, {provider.first_name}</Typography>
+                  <Typography key={provider.id}>{provider.last_name}, {provider.first_name}</Typography>
                 )
                 }
                 else {
                   return (
-                    <Typography>---</Typography>
+                    <Typography key="empty">---</Typography>
                   )
                 }
             })}
@@ -129,7 +129,7 @@ class MuiVirtualizedTable extends React.PureComponent {
   };
 
   headerRenderer = ({ label }) => {
-    const { headerHeight, columns, classes } = this.props;
+    const { headerHeight, classes } = this.props;
 
     return (
       <TableCell
