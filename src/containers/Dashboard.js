@@ -12,6 +12,7 @@ import Box from '@mui/material/Box'
 import Confirm from '../components/Confirm'
 
 import { BASE_URL } from '../App'
+import { Typography } from '@mui/material';
 
 
 const styles = (theme) => ({
@@ -19,6 +20,14 @@ const styles = (theme) => ({
     display: 'flex',
     alignItems: 'center',
     boxSizing: 'border-box',
+
+  },
+  flexContainerList: {
+    display: 'flex',
+    alignItems: 'center',
+    boxSizing: 'border-box',
+    overflow: "scroll",
+    flexDirection: "column"
   },
   table: {
     // temporary right-to-left patch, waiting for
@@ -52,7 +61,7 @@ const styles = (theme) => ({
 class MuiVirtualizedTable extends React.PureComponent {
   static defaultProps = {
     headerHeight: 48,
-    rowHeight: 48,
+    rowHeight: 72,
   };
 
 
@@ -70,14 +79,32 @@ class MuiVirtualizedTable extends React.PureComponent {
     const { columns, classes, rowHeight, onRowClick } = this.props;
     if (columnIndex === 4) {
         return (
-            <Box>
-                <Button onClick = {(e) => this.props.setOpen({ open: true, action: "Edit", rowData: rowData})}>
-                    Edit
-                </Button>
-                <Button onClick = {(e) => this.props.setOpen({ open: true, action: "Delete", rowData: rowData})}>
-                    Delete
-                </Button>
-            </Box>
+          <TableCell
+            component="div"
+            className={clsx(classes.tableCell, classes.flexContainerList, {
+              [classes.noClick]: onRowClick == null,
+            })}
+            variant="body"
+            style={{ height: rowHeight }}
+            align={
+              (columnIndex != null && columns[columnIndex].numeric) || false
+                ? 'right'
+                : 'left'
+            }
+          >
+            {cellData.map((provider) => {
+                if (provider.id) {
+                return (
+                  <Typography>{provider.last_name}, {provider.first_name}</Typography>
+                )
+                }
+                else {
+                  return (
+                    <Typography>---</Typography>
+                  )
+                }
+            })}
+        </TableCell>
         )
     }
     else {
@@ -200,13 +227,6 @@ export default function Patients(props) {
           .then(res => res.json())
           .then(res => {
                 setRows(res.patients)
-          })
-
-          fetch(BASE_URL+"providers", config)
-          .then(res => res.json())
-          .then(res => {
-            res.providers.sort((a,b) => (a.last_name > b.last_name) ? 1 : ((b.last_name > a.last_name) ? -1 : 0))
-                setProviders(res.providers)
           })
       }, [])
 
