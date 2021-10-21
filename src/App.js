@@ -1,6 +1,6 @@
 import './App.css';
 import { HashRouter, Switch, Route } from 'react-router-dom';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Dashboard from './containers/Dashboard';
 import Patients from './containers/Patients'
@@ -25,6 +25,33 @@ function App() {
 
   const [page, setPage] = useState("Dashboard")
   const [isBusy, setBusy] = useState(false)
+  const [patients, setPatients] = useState(null)
+  const [providers, setProviders] = useState(null)
+  const [hospitals, setHospitals] = useState(null)
+
+
+  // useEffect(()=> {
+  //   let config = {
+  //       method: 'GET',
+  //       headers: {
+  //           'Content-Type': 'application/json',
+  //           'Accept': 'application/json',
+  //       },
+  //   }
+
+  //     fetch(BASE_URL+"patients", config)
+  //     .then(res => res.json())
+  //     .then(res => {
+  //           setRows(res.patients)
+  //     })
+
+  //     fetch(BASE_URL+"providers", config)
+  //     .then(res => res.json())
+  //     .then(res => {
+  //       res.providers.sort((a,b) => (a.last_name > b.last_name) ? 1 : ((b.last_name > a.last_name) ? -1 : 0))
+  //           setProviders(res.providers)
+  //     })
+  // }, [])
 
 
   const renderLoad = () => {
