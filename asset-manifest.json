@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/tridiuum-frontend/static/css/main.8c8b27cf.chunk.css",
-    "main.js": "/tridiuum-frontend/static/js/main.cd8c1295.chunk.js",
-    "main.js.map": "/tridiuum-frontend/static/js/main.cd8c1295.chunk.js.map",
+    "main.js": "/tridiuum-frontend/static/js/main.ccdfbfc3.chunk.js",
+    "main.js.map": "/tridiuum-frontend/static/js/main.ccdfbfc3.chunk.js.map",
     "runtime-main.js": "/tridiuum-frontend/static/js/runtime-main.8371f2b5.js",
     "runtime-main.js.map": "/tridiuum-frontend/static/js/runtime-main.8371f2b5.js.map",
-    "static/js/2.300c98c8.chunk.js": "/tridiuum-frontend/static/js/2.300c98c8.chunk.js",
-    "static/js/2.300c98c8.chunk.js.map": "/tridiuum-frontend/static/js/2.300c98c8.chunk.js.map",
+    "static/js/2.478ddecb.chunk.js": "/tridiuum-frontend/static/js/2.478ddecb.chunk.js",
+    "static/js/2.478ddecb.chunk.js.map": "/tridiuum-frontend/static/js/2.478ddecb.chunk.js.map",
     "static/js/3.dec36eda.chunk.js": "/tridiuum-frontend/static/js/3.dec36eda.chunk.js",
     "static/js/3.dec36eda.chunk.js.map": "/tridiuum-frontend/static/js/3.dec36eda.chunk.js.map",
     "index.html": "/tridiuum-frontend/index.html",
     "static/css/main.8c8b27cf.chunk.css.map": "/tridiuum-frontend/static/css/main.8c8b27cf.chunk.css.map",
-    "static/js/2.300c98c8.chunk.js.LICENSE.txt": "/tridiuum-frontend/static/js/2.300c98c8.chunk.js.LICENSE.txt"
+    "static/js/2.478ddecb.chunk.js.LICENSE.txt": "/tridiuum-frontend/static/js/2.478ddecb.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.8371f2b5.js",
-    "static/js/2.300c98c8.chunk.js",
+    "static/js/2.478ddecb.chunk.js",
     "static/css/main.8c8b27cf.chunk.css",
-    "static/js/main.cd8c1295.chunk.js"
+    "static/js/main.ccdfbfc3.chunk.js"
   ]
 }
