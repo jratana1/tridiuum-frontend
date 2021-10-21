@@ -14,6 +14,9 @@ import TextField from '@mui/material/TextField';
 import ChipSelect from '../components/ChipSelect'
 import Confirm from '../components/Confirm'
 
+import { useHistory } from 'react-router-dom';
+
+
 import { BASE_URL } from '../App'
 
 
@@ -31,11 +34,11 @@ showContainer:{
 function Provider() {
     const { id } = useParams();
     const classes = useStyles();
-    const [provider, setProvider]= useState(null);
     const [associations, setAssociations] = useState([])
     const [open, setOpen]= useState(false)
     const [record, setRecord] = useState(null)
     const [hospitals, setHospitals] = useState([])
+    const history = useHistory()
 
     const handleChange = (event) => {
         let { name, value } = event.target;
@@ -59,7 +62,8 @@ function Provider() {
             fetch(BASE_URL+`providers/${id}`, config)
             .then(res => res.json())
             .then(res => {
-                console.log("here")
+                setRecord(res.providers[0])
+                history.push('/')
             })
         }
         
@@ -120,7 +124,7 @@ function Provider() {
 
                   </CardContent>
                   <CardActions>
-                      <Button onClick= {() => editRecord(provider.id)}>Save</Button>
+                      <Button onClick= {() => editRecord(record.id)}>Save</Button>
                       <Button onClick = {(e) => setOpen({ open: true, action: "Delete", rowData: record})}>Delete</Button>
                   </CardActions>
                   </Card>
