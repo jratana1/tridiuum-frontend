@@ -273,25 +273,6 @@ export default function Patients(props) {
         ]}
       />
     </Paper>
-    <Button onClick={() => {setOpen({open: true,
-                                    action: "Create",
-                                    rowData: {id: "", 
-                                            first_name:"",
-                                            mrn: "",
-                                            last_name: ""}
-                                    })}}
-        >
-        Add {page}
-    </Button>
-    <Confirm
-        open={open.open}
-        action= {open.action}
-        rowData= {open.rowData}
-        onClose={handleClose}
-        setRows= {setRows}
-        page= {page}
-        dropDown= {providers}
-    />
     </Box>
   );
 }

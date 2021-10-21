@@ -12,11 +12,17 @@ import TextField from '@mui/material/TextField';
 
 import ChipSelect from './ChipSelect'
 
+import { useLocation, useHistory } from 'react-router-dom';
+
+
 import { BASE_URL } from '../App'
 
 export default function Confirm(props) {
   const { onClose, open, action, rowData, setRows, page, dropDown } = props;
   const [ record, setRecord ] = useState({})
+  let history = useHistory();
+  const location = useLocation()
+
 
   const [associations, setAssociations] = useState([])
 
@@ -48,6 +54,9 @@ export default function Confirm(props) {
       .then(res => {
           setRows(res[lowerCase(page)+"s"])
           handleClose()
+          if (location.pathname.split("/")[1] === "providers" && location.pathname.split("/").length > 2) {
+          history.push('/')
+          }
       })
     }
 
