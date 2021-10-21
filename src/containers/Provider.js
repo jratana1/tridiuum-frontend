@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   useParams,
 } from "react-router-dom";
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 
 import Button from '@mui/material/Button';
 
@@ -32,8 +32,33 @@ function Provider() {
     const { id } = useParams();
     const classes = useStyles();
     const [provider, setProvider]= useState(null);
-    const [associations, setAssociations]= useState(null)
+    const [associations, setAssociations] = useState([])
     const [open, setOpen]= useState(false)
+    const [record, setRecord] = useState({})
+    const [hospitals, setHospitals] = useState([])
+
+    const handleChange = (event) => {
+        let { name, value } = event.target;
+          setRecord({...record, [name]:value })
+      };
+    
+    const editRecord = (id) => {
+            let config = {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify( { record: record, associations: associations})  
+            }
+
+            fetch(BASE_URL+`providers/${id}`, config)
+            .then(res => res.json())
+            .then(res => {
+                console.log(res)
+            })
+        }
+        
 
     useEffect(()=> {
             let config = {
@@ -44,17 +69,18 @@ function Provider() {
                 },
             }
 
-            fetch(BASE_URL+"patient/"+id, config)
+            fetch(BASE_URL+"providers/"+id, config)
             .then(res => res.json())
             .then(res => {
-            console.log(res)
+                console.log(res)
+            setProvider(res.providers)
             })
     }, [id])
     
-    if (restaurant) {
+    if (provider) {
         return (
           <div className={classes.showContainer}>
-                    <Card sx={{ minWidth: 275 }}>
+                <Card sx={{ minWidth: 275 }}>
                   <CardContent>
                     <TextField
                             id="last_name"
@@ -75,7 +101,7 @@ function Provider() {
 
                   </CardContent>
                   <CardActions>
-                      <Button onClick= {() => editRecord(rowData.id, action)}>Save</Button>
+                      <Button onClick= {() => editRecord(provider.id)}>Save</Button>
                       <Button onClick = {(e) => setOpen({ open: true, action: "Delete", rowData: provider})}>Delete</Button>
                   </CardActions>
                   </Card>

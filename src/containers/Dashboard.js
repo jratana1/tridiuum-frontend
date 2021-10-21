@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom'
+
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { withStyles } from '@mui/styles';
@@ -95,7 +97,10 @@ class MuiVirtualizedTable extends React.PureComponent {
             {cellData.map((provider) => {
                 if (provider.id) {
                 return (
-                  <Typography key={provider.id}>{provider.last_name}, {provider.first_name}</Typography>
+                  <Link to={`/providers/${provider.id}`}>
+                    <Typography key={provider.id}>{provider.last_name}, {provider.first_name}</Typography>
+                  </Link>
+
                 )
                 }
                 else {

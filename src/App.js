@@ -5,6 +5,8 @@ import React, { useState } from 'react';
 import Dashboard from './containers/Dashboard';
 import Patients from './containers/Patients'
 import Providers from './containers/Providers'
+import Provider from './containers/Provider'
+
 
 import Header from './components/Header'
 import Navbar from './components/Navbar'
@@ -55,8 +57,11 @@ function App() {
             <Route path='/patients'>
               <Patients page={page}/>
             </Route>
-            <Route path='/providers'>
+            <Route path='/providers' exact>
               <Providers page={page}/>
+            </Route>
+            <Route path='/providers/:id'>
+              <Provider page="Provider"/>
             </Route>
           </Switch>
         </HashRouter>
