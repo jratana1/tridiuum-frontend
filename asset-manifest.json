@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/tridiuum-frontend/static/css/main.8c8b27cf.chunk.css",
-    "main.js": "/tridiuum-frontend/static/js/main.ee030414.chunk.js",
-    "main.js.map": "/tridiuum-frontend/static/js/main.ee030414.chunk.js.map",
+    "main.js": "/tridiuum-frontend/static/js/main.e81cdb5a.chunk.js",
+    "main.js.map": "/tridiuum-frontend/static/js/main.e81cdb5a.chunk.js.map",
     "runtime-main.js": "/tridiuum-frontend/static/js/runtime-main.a433a0b1.js",
     "runtime-main.js.map": "/tridiuum-frontend/static/js/runtime-main.a433a0b1.js.map",
     "static/js/2.7b83c00b.chunk.js": "/tridiuum-frontend/static/js/2.7b83c00b.chunk.js",
@@ -17,6 +17,6 @@
     "static/js/runtime-main.a433a0b1.js",
     "static/js/2.7b83c00b.chunk.js",
     "static/css/main.8c8b27cf.chunk.css",
-    "static/js/main.ee030414.chunk.js"
+    "static/js/main.e81cdb5a.chunk.js"
   ]
 }
