@@ -34,7 +34,7 @@ function Provider() {
     const [provider, setProvider]= useState(null);
     const [associations, setAssociations] = useState([])
     const [open, setOpen]= useState(false)
-    const [record, setRecord] = useState({})
+    const [record, setRecord] = useState(null)
     const [hospitals, setHospitals] = useState([])
 
     const handleChange = (event) => {
@@ -55,7 +55,7 @@ function Provider() {
             fetch(BASE_URL+`providers/${id}`, config)
             .then(res => res.json())
             .then(res => {
-                console.log(res)
+                console.log("here")
             })
         }
         
@@ -71,13 +71,28 @@ function Provider() {
 
             fetch(BASE_URL+"providers/"+id, config)
             .then(res => res.json())
-            .then(res => {
-                console.log(res)
-            setProvider(res.providers)
+            .then(res => {  
+            setRecord(res.providers[0])
             })
     }, [id])
+
+    useEffect(()=> {
+        let config = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+        }
+
+        fetch(BASE_URL+"hospitals/", config)
+        .then(res => res.json())
+        .then(res => {  
+        setHospitals(res)
+        })
+}, [])
     
-    if (provider) {
+    if (record) {
         return (
           <div className={classes.showContainer}>
                 <Card sx={{ minWidth: 275 }}>

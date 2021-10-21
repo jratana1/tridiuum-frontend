@@ -16,9 +16,9 @@ import Grid from '@mui/material/Grid';
 
 
 
-// export const BASE_URL = "http://localhost:3000/";
+export const BASE_URL = "http://localhost:3000/";
 // Deploy URL
-export const BASE_URL = "https://tridiuum-backend.herokuapp.com/";
+// export const BASE_URL = "https://tridiuum-backend.herokuapp.com/";
 
 
 function App() {
