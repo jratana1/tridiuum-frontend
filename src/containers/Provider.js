@@ -41,6 +41,10 @@ function Provider() {
         let { name, value } = event.target;
           setRecord({...record, [name]:value })
       };
+
+    const handleClose = () => {
+        setOpen({...open, open: false});
+    };
     
     const editRecord = (id) => {
             let config = {
@@ -117,10 +121,18 @@ function Provider() {
                   </CardContent>
                   <CardActions>
                       <Button onClick= {() => editRecord(provider.id)}>Save</Button>
-                      <Button onClick = {(e) => setOpen({ open: true, action: "Delete", rowData: provider})}>Delete</Button>
+                      <Button onClick = {(e) => setOpen({ open: true, action: "Delete", rowData: record})}>Delete</Button>
                   </CardActions>
                   </Card>
-                <Confirm/>
+                <Confirm
+                        open={open.open}
+                        action= {open.action}
+                        rowData= {open.rowData}
+                        onClose={handleClose}
+                        setRows= {setRecord}
+                        page={"Provider"}
+                        dropDown={hospitals}
+                />
           </div>
           );
         }
