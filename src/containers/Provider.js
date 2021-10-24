@@ -36,7 +36,9 @@ function Provider() {
     const classes = useStyles();
     const [associations, setAssociations] = useState([])
     const [open, setOpen]= useState(false)
-    const [record, setRecord] = useState(null)
+    const [record, setRecord] = useState({first_name: "",
+                                          last_name: "",
+                                            hospitals: []})
     const [hospitals, setHospitals] = useState([])
     const history = useHistory()
 

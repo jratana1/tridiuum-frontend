@@ -25,9 +25,7 @@ function App() {
 
   const [page, setPage] = useState("Dashboard")
   const [isBusy, setBusy] = useState(false)
-  const [patients, setPatients] = useState(null)
-  const [providers, setProviders] = useState(null)
-  const [hospitals, setHospitals] = useState(null)
+
 
 
   const renderLoad = () => {
